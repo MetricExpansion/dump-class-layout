@@ -221,7 +221,7 @@ public:
       : Context(Context) {}
 
   bool VisitCXXRecordDecl(CXXRecordDecl *Declaration) {
-    if (!Declaration->hasDefinition()) { return true; }
+    if (!Declaration->hasDefinition() || Declaration->isDependentType()) { return true; }
     FullSourceLoc FullLocation = Context->getFullLoc(Declaration->getBeginLoc());
     if (FullLocation.isValid())
       std::cout << "Found declaration for "
@@ -239,6 +239,8 @@ public:
     return true;
   }
 
+  bool shouldVisitTemplateInstantiations() const { return true; }
+
 private:
   ASTContext *Context;
 };
@@ -248,7 +250,7 @@ public:
   explicit FindNamedClassConsumer(ASTContext *Context)
       : Visitor(Context) {}
 
-  virtual void HandleTranslationUnit(clang::ASTContext &Context) {
+  virtual void HandleTranslationUnit(clang::ASTContext &Context) override {
     Visitor.TraverseDecl(Context.getTranslationUnitDecl());
   }
 private:
@@ -258,7 +260,7 @@ private:
 class FindNamedClassAction : public clang::ASTFrontendAction {
 public:
   virtual std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(
-      clang::CompilerInstance &Compiler, llvm::StringRef InFile) {
+      clang::CompilerInstance &Compiler, llvm::StringRef InFile) override {
     return std::make_unique<FindNamedClassConsumer>(&Compiler.getASTContext());
   }
 };
