@@ -224,18 +224,18 @@ public:
     if (!Declaration->hasDefinition() || Declaration->isDependentType()) { return true; }
     FullSourceLoc FullLocation = Context->getFullLoc(Declaration->getBeginLoc());
     if (FullLocation.isValid())
-      std::cout << "Found declaration for "
+      llvm::outs() << "Found declaration for "
                    << Declaration->getQualifiedNameAsString()
                    << " at "
                    << FullLocation.getSpellingLineNumber() << ":"
                    << FullLocation.getSpellingColumnNumber() << "\n";
-    const clang::ASTRecordLayout &typeLayout( Declaration->getASTContext().getASTRecordLayout(Declaration));
+//    const clang::ASTRecordLayout &typeLayout( Declaration->getASTContext().getASTRecordLayout(Declaration));
     DumpRecordLayout(llvm::outs(), Declaration, Declaration->getASTContext(), CharUnits(), 4, "", true, true);
-    for(clang::RecordDecl::field_iterator fit = Declaration->field_begin(); fit != Declaration->field_end(); fit++) {
-      const clang::QualType qualType = fit->getType().getLocalUnqualifiedType().getCanonicalType();
-      size_t fieldOffset = typeLayout.getFieldOffset(fit->getFieldIndex());
-      std::cout << "member '" << qualType.getAsString() << "' with " << fieldOffset/8 << " bytes offset\n";
-    }
+//    for(clang::RecordDecl::field_iterator fit = Declaration->field_begin(); fit != Declaration->field_end(); fit++) {
+//      const clang::QualType qualType = fit->getType().getLocalUnqualifiedType().getCanonicalType();
+//      size_t fieldOffset = typeLayout.getFieldOffset(fit->getFieldIndex());
+//      std::cout << "member '" << qualType.getAsString() << "' with " << fieldOffset/8 << " bytes offset\n";
+//    }
     return true;
   }
 
