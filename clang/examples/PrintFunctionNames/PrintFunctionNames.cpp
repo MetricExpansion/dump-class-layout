@@ -115,9 +115,12 @@ protected:
     ros << "Help for PrintFunctionNames plugin goes here\n";
   }
 
+    PluginASTAction::ActionType getActionType() override {
+        return AddAfterMainAction;
+    }
+
 };
 
 }
 
-static FrontendPluginRegistry::Add<PrintFunctionNamesAction>
-X("print-fns", "print function names");
+static FrontendPluginRegistry::Add<PrintFunctionNamesAction> X("print-fns", "print function names");
