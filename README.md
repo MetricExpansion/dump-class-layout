@@ -1,3 +1,12 @@
+# Swift Bridge
+
+    mkdir llvm/cmake-build-release
+    cd llvm/cmake-build-release
+    cmake -G Ninja -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" -DLLVM_TARGETS_TO_BUILD="X86;AArch64;ARM" -DLLVM_ENABLE_IDE=ON -DLLVM_APPEND_VC_REV=OFF
+    ninja
+
+and then run `loop-convert`.
+
 # The LLVM Compiler Infrastructure
 
 This directory and its sub-directories contain the source code for LLVM,
