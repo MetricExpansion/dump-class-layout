@@ -226,7 +226,8 @@ static void DumpRecordLayout(
                                     ? Field.getType().getCanonicalType()
                                     : Field.getType();
         OS << FieldType << ' ' << Field << '\n';
-        WriteField(Array, FieldType.getAsString(), Field.getNameAsString(), RecordKind::Field, FieldOffset);
+        std::string TypeName = Field.getType().getUnqualifiedType().getAsString();
+        WriteField(Array, std::move(TypeName), Field.getNameAsString(), RecordKind::Field, FieldOffset);
     }
 
     // Dump virtual bases.
